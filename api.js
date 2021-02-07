@@ -8,8 +8,7 @@ $('.search').on('click', function (event) {
   }
 });
 
-
-//grab the input data before using it
+// GLOBAL VARIABLES
 var cityInput = $("#city-input");
 var cityName = "";
 var cityNameTag = $("<h3>");
@@ -19,25 +18,8 @@ var windTag = $("<p>");
 var currentWeather = $("#current-weather");
 var weatherTag = $("<p>");
 var weather = "";
-// var gifURLs = [];
-
-
-const weaBlock = $("#weather-block");
-const inputSto = $("#input-storage");
-
-/*
-Was tring to insert the entire iframe but getting undefined line 23 error so will leave it for later. I did look very cute when I added it in the html. You can uncomment it in the html to see it-->
-const gifBlock = $(document.createElement("iframe"));
-gifBlock.attr(title, "Conditions");
-gifBlock.attr(width, "100");
-gifBlock.attr(height, "50");
-gifBlock.attr(src, "https://giphy.com/embed/SAC0wTRQYO2Y0");
-gifBlock.attr(frameborder, "0");
-gifBlock.addClass("giphy-embed");*/
-
-
-
-
+var weaBlock = $("#weather-block");
+var inputSto = $("#input-storage");
 
 //Local storage
 const storedSearch = localStorage.getItem("list");
@@ -73,12 +55,13 @@ function currentWeatherAPI(e) {
   })
     .then(function (response) {
       console.log("WEATHER QUERY URL - " + queryURL);
+
       // variable to get icon for todays weather
       var todayIcon = response.weather[0].icon;
       // assign value to todayIconURL
       var todayIconURL = "https://openweathermap.org/img/wn/" + todayIcon + ".png";
       // append todayIconURL next to cityNameTag
-      $(cityNameTag).append("<img src =" + todayIconURL + ">");
+      $("cityNameTag").append("<img src =" + todayIconURL + ">");
 
       // create variables and assign weather info as text
       weather = response.weather[0].main;
@@ -95,13 +78,13 @@ function currentWeatherAPI(e) {
       weaBlock.show();
       inputSto.show();
 
-      // call function to retrieve city images and weather gifs
+      // call function to retrieve city images
       displayImg();
       createGif();
     });
 }
 
-// create function that pulls id of city button, calls API to gather images and append to img-gallery
+// create function that pulls id of city button, calls API to gather images and append to carousel
 function displayImg() {
 
   // clear div containing images
@@ -122,7 +105,7 @@ function displayImg() {
       for (var i = 0; i < response.results.length; i++) {
         //create div tag that will contain img and append carousel-item classes
         var divImg = $("<div>").addClass("carousel-item");
-        divImg.attr("id", "img-" + i);
+        divImg.attr("id", i);
 
         //create img tag that will contain city img and append d-block w-100 classes
         var cityImg = $("<img>").addClass("d-block w-100");
@@ -134,10 +117,9 @@ function displayImg() {
         // append divImg to img-gallery id
         $("#img-gallery").append(divImg);
 
-        var firstImgTag = $("#img-0").addClass("active");
+        var firstImgTag = $("#0").addClass("active");
       }
 
-      // calling function to store city name to local storage
       storeData();
 
     });
@@ -146,86 +128,79 @@ function displayImg() {
 // using weather from currentWeather, search gifs, create tags and append to gif-gallery
 function createGif() {
 
+  // clear div containing gifs
+  $("#weather-gif").empty();
+
   var apiKey = "sybBXVqNNyH0EPjFu28Tl0KiGOaCADFu";
 
-  for (var i = 0; i < 10; i++) {
+  // if(weather === "Clouds"){
+  //   weather = "clou"
+  // }
 
-    // query URLs for giphy search - testing out 2 different ones
-    // var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + weather + "&limit=10&api_key=" + apiKey;
-    var queryUrl = "https://api.giphy.com/v1/gifs/random?tag=" + weather + "&limit=10&api_key=" + apiKey;
 
-    // ajax for RANDOM queryURL
-    $.ajax({
-      url: queryUrl,
-      method: "GET"
-    })
-      .then(function (response) {
-        console.log("GIF QUERY URL - " + queryUrl);
-        var gifURL = response.data.images.fixed_height_small_still.url;
-        console.log("GIF URL - " + gifURL);
-        var gifTitle = response.data.title;
+  // query URLs for giphy search - testing out 2 different ones
+  // var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + weather + "&limit=10&api_key=" + apiKey;
+  var queryUrl = "https://api.giphy.com/v1/gifs/random?tag=" + weather + "&limit=10&api_key=" + apiKey;
 
-        // create div tag to contain img tag
-        var gifGallery = $("<div>").addClass("carousel-item");
-        // create img tag to contain gif
-        var weatherGif = $("<img>").addClass("d-block w-100");
-        // weatherGif.attr("data-bs-interval", "5000");
-        // add link to gif and alt
-        $(weatherGif).attr("src", gifURL);
-        $(weatherGif).attr("alt", cityName + "-" + gifTitle);
-        // append gif to gallery
-        $(gifGallery).append(weatherGif);
-        // append gallery to page
-        $("#gif-gallery").append(gifGallery);
-      });
+  // ajax for RANDOM queryURL
+  $.ajax({
+    url: queryUrl,
+    method: "GET"
+  })
+    .then(function (response) {
 
-    // ajax for SEARCH queryURL
-    // $.ajax({
-    //     url: gifURLs[i],
-    //     method: "GET"
-    // })
-    //     .then(function (response) {
-    //         var gifURL = response.data[0].images.original.url;
-    //         console.log(gifURL);
-    //         var gifTitle = response.data[0].title;
+      console.log("GIF QUERY URL - " + queryUrl);
+      console.log("GIF URL - " + response.data.images.original.url);
 
-    //         // create div tag to contain img tag
-    //         var gifGallery = $("<div>").addClass("carousel-item");
-    //         // create img tag to contain gif
-    //         var weatherGif = $("<img>").addClass("d-block w-100");
-    //         // add link to gif and alt
-    //         $(weatherGif).attr("src", gifURL);
-    //         $(weatherGif).attr("alt", cityName + "-" + gifTitle);
-    //         // append gif to gallery
-    //         $(gifGallery).append(weatherGif);
-    //         // append gallery to page
-    //         $("").append(gifGallery);
-    //     });
-  }
+      var weatherGif = $("<img>").addClass("d-block w-100");
+      // add link to gif and alt
+      $(weatherGif).attr("src", response.data.images.original.url);
+      $(weatherGif).attr("alt", weather );
+      $("#weather-gif").append(weatherGif);
+    });
+
+  // ajax for SEARCH queryURL
+  // $.ajax({
+  //     url: gifURLs[i],
+  //     method: "GET"
+  // })
+  //     .then(function (response) {
+  //         var gifURL = response.data[0].images.original.url;
+  //         console.log(gifURL);
+  //         var gifTitle = response.data[0].title;
+
+  //         // create div tag to contain img tag
+  //         var gifGallery = $("<div>").addClass("carousel-item");
+  //         // create img tag to contain gif
+  //         var weatherGif = $("<img>").addClass("d-block w-100");
+  //         // add link to gif and alt
+  //         $(weatherGif).attr("src", gifURL);
+  //         $(weatherGif).attr("alt", cityName + "-" + gifTitle);
+  //         // append gif to gallery
+  //         $(gifGallery).append(weatherGif);
+  //         // append gallery to page
+  //         $("").append(gifGallery);
+  //     });
+  // }
 }
-
 
 // function for local storage :)
 function storeData() {
   // Push the input into local storage
   searchList.push(cityName);
   localStorage.setItem("list", JSON.stringify(searchList));
-  const listGroup = $(".badge");
+  const listGroup = $(".list-group-item");
 
   //Limit number of stored items on the page to 5
   if (listGroup.length > 4) {
     $(listGroup.get(4)).remove();
   }
 
-  $("#input-storage").prepend(`<button class="badge rounded-pill bg-light text-dark">${cityName}</button>`);
+  $("#input-storage").prepend(`<li class="list-group-item list-group-item-primary mb-1">${cityName}</li>`);
   searchList.reverse().slice(0, 5).forEach((citySearch) => {
-    $("input-storage").append(`<button class="badge rounded-pill bg-light text-dark">${citySearch}</button>`);
+    $("input-storage").append(`<li class="list-group-item list-group-item-primary mb-1">${citySearch}</li>`);
   });
 }
-
-
-
-
 
 // user clicks Enter, function kicks off to get current weather and then city images
 cityInput.on("keypress", currentWeatherAPI);
