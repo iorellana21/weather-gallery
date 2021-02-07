@@ -211,6 +211,7 @@ function storeData() {
 }
 
 
+
 // function when city has been clicked
 function searchCityAgain() {
     // stop search unless user presses the Enter key. The Keycode for "enter" is the numer 13 - thanks Jess!
