@@ -22,9 +22,9 @@ User enters a city name in the input field to see weather conditions.
 
 
 ## Main Page
-![alt text](main-pic "main-page")
+![alt text](https://raw.githubusercontent.com/iorellana21/weather-gallery/main/assets/main-page.png "main-page")
 ## City Info Page
-![alt text](city-info-pic "city-info-page")
+![alt text](https://raw.githubusercontent.com/iorellana21/weather-gallery/main/assets/city-info.png "city-info-page")
 
 ---
 ## Credits
