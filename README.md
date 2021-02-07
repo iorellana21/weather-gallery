@@ -39,3 +39,5 @@ User enters a city name in the input field to see weather conditions.
 * https://iorellana21.github.io/weather-gallery/
 #### GitHub URL
 * https://github.com/iorellana21/weather-gallery
+#### Presentation Deck
+* https://docs.google.com/presentation/d/1kIMXsyqWEUno-4PXRPlKT0GRlRPxS1rxyJq3gSon3JQ/edit#slide=id.p
