@@ -30,7 +30,7 @@ var gifURLs = [];
 
 // retrieve weather conditions for city entered by user
 function getWeather() {
-    var apiKey = "c7cde66d595fb98577da25bd96a3df85";
+    var apiKey = "";
     // query URL for city weather
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
 
@@ -59,7 +59,7 @@ function getWeather() {
 
 // search for similar key terms based on weather condition to use to get gif URLs
 function getGifKeys() {
-    var apiKey = "sybBXVqNNyH0EPjFu28Tl0KiGOaCADFu";
+    var apiKey = "";
 
     // use this API call to get collection of words similar to currentWeather
     var queryUrl = "https://api.giphy.com/v1/gifs/search/tags?q=" + currentWeather + "&limit=10&api_key=" + apiKey;
@@ -87,7 +87,7 @@ function getGifKeys() {
 
 // using values from getGifKeys, search gifs, create tags and append to gallery
 function createGif() {
-    var apiKey = "sybBXVqNNyH0EPjFu28Tl0KiGOaCADFu";
+    var apiKey = "";
 
     for (var i = 0; i < weatherKeys.length; i++) {
 

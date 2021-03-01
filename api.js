@@ -31,8 +31,8 @@ var searchList = storedSearch ? JSON.parse(storedSearch) : []
 
 // function for current weather API call
 function currentWeatherAPI(e) {
-    // stop search unless user presses the Enter key. The Keycode for "enter" is the numer 13 - thanks Jess!
-    if (e.keyCode !== 13) {
+
+    if (e.handleObj.type === "keypress" && e.keyCode !== 13) {
         return;
     }
 
@@ -47,7 +47,7 @@ function currentWeatherAPI(e) {
     // append h3 tag to page
     currentWeather.append(cityNameTag);
 
-    var apiKey = "c7cde66d595fb98577da25bd96a3df85";
+    var apiKey = "";
     // query URL for city weather
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
 
@@ -94,7 +94,7 @@ function displayImg() {
     // clear div containing images
     $("#img-gallery").empty();
 
-    var apiKey = "duheouvYAukp2dG98jzVI1Y2VnHKe-PnTeWRmeKt5ss";
+    var apiKey = "";
     // API Query call
     var queryURL = "https://api.unsplash.com/search/photos?query=" + cityName + "&count=10&orientation=landscape&client_id=" + apiKey;
 
@@ -205,9 +205,9 @@ function storeData() {
         listItem = $(event.target).attr("id");
         console.log(listItem);
         searchCity = true;
-        searchCityAgain();
+        // searchCityAgain();
+        currentWeatherAPI(event);
     });
-
 }
 
 
@@ -230,7 +230,7 @@ function searchCityAgain() {
     // append h3 tag to page
     currentWeather.append(cityNameTag);
 
-    var apiKey = "c7cde66d595fb98577da25bd96a3df85";
+    var apiKey = "";
     // query URL for city weather
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
 
@@ -277,7 +277,7 @@ function displayImgAgain() {
     // clear div containing images
     $("#img-gallery").empty();
 
-    var apiKey = "duheouvYAukp2dG98jzVI1Y2VnHKe-PnTeWRmeKt5ss";
+    var apiKey = "";
     // API Query call
     var queryURL = "https://api.unsplash.com/search/photos?query=" + cityName + "&count=10&orientation=landscape&client_id=" + apiKey;
 
@@ -315,7 +315,7 @@ function createGifAgain() {
     // clear div containing gifs
     $("#weather-gif").empty();
 
-    var apiKey = "sybBXVqNNyH0EPjFu28Tl0KiGOaCADFu";
+    var apiKey = "";
 
     // query URLs for giphy search - testing out 2 different ones
     var queryUrl = "https://api.giphy.com/v1/gifs/random?tag=" + weather + "&limit=10&api_key=" + apiKey;
@@ -338,4 +338,6 @@ function createGifAgain() {
 }
 
 // user clicks Enter, function kicks off to get current weather, city images and weather gif
-cityInput.on("keypress", currentWeatherAPI);
+cityInput.on("keypress", function(event){
+    currentWeatherAPI(event);
+});
